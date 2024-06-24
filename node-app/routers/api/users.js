@@ -6,6 +6,8 @@ const bcrypt = require('bcrypt') // encryption
 const gravatar = require('gravatar');
 const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
+const passport = require('passport');
+
 
 // @route GET api/users/test
 // @des return request data
@@ -17,7 +19,6 @@ router.get('/test', (req, res) =>{
 // @route POST api/users/register
 // @des return request data
 // @access public
-// router.post()
 router.post('/register', (req, res) => {
     // console.log(req.body)
     // check the user' email exist or not 
@@ -51,7 +52,6 @@ router.post('/register', (req, res) => {
 // @route POST api/users/login
 // @des return token
 // @access public
-// router.post()
 router.post('/login', (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
@@ -64,11 +64,11 @@ router.post('/login', (req, res) => {
                 .then(isMatch => {
                     if(isMatch) {
                         const rule = {id: user.id, name: user.name};
-                        jwt.sign(rule, 'keys.secretOrKey', {expiresIn: 3600}, (err, token) =>{
+                        jwt.sign(rule, keys.secretOrKey, {expiresIn: 3600}, (err, token) =>{
                             if(err) throw err;
                             res.json({
                                 success: true,
-                                token: 'yang' + token
+                                token: 'Bearer ' + token
                             })
                         })
                         // res.json({ msg: 'success'})
@@ -78,4 +78,16 @@ router.post('/login', (req, res) => {
                 })
         })
 })
+
+// @route GET api/users/current
+// @des return current user
+// @access private
+router.get('/current', passport.authenticate('jwt', {session: false}), (req, res) => {
+    res.json({
+        id: req.user.id,
+        name: req.user.name,
+        email: req.user.email
+    });
+})
+
 module.exports = router;
