@@ -1,20 +1,12 @@
 // login & register
 const express = require('express');
 const router = express.Router();
-const User = require('../../models/user');
+const User = require('../../models/User');
 const bcrypt = require('bcrypt') // encryption
 const gravatar = require('gravatar');
 const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
 const passport = require('passport');
-
-
-// @route GET api/users/test
-// @des return request data
-// @access public
-router.get('/test', (req, res) =>{
-    res.send({msg: 'login works'})
-})
 
 // @route POST api/users/register
 // @des return request data
@@ -25,14 +17,15 @@ router.post('/register', (req, res) => {
     User.findOne({ email: req.body.email})
         .then((user) => {
             if(user) {
-                return res.status(400).json({ email: 'This email has been existed!'})
+                return res.status(400).json('This email has been existed!')
             } else {
                 const avatar = gravatar.url(req.body.email, {s: '200', r: 'pg', d: 'mm'});
                 const newUser = new User({
                     name: req.body.name,
                     email: req.body.email,
                     avatar,
-                    password: req.body.password
+                    password: req.body.password,
+                    identity: req.body.identity
                 })
                 bcrypt.genSalt(10, function(err, salt) {
                     bcrypt.hash(newUser.password, salt, (err, hash) => {
@@ -58,12 +51,17 @@ router.post('/login', (req, res) => {
     User.findOne({ email})
         .then(user =>{
             // check user
-            if(!user) return res.status(404).json({ email: 'User does not exist!'})
+            if(!user) return res.status(404).json('User does not exist!')
             // check password
             bcrypt.compare(password, user.password)
                 .then(isMatch => {
                     if(isMatch) {
-                        const rule = {id: user.id, name: user.name};
+                        const rule = {
+                            id: user.id,
+                            name: user.name,
+                            avatar: user.avatar,
+                            identity: user.identity
+                        };
                         jwt.sign(rule, keys.secretOrKey, {expiresIn: 3600}, (err, token) =>{
                             if(err) throw err;
                             res.json({
@@ -73,7 +71,7 @@ router.post('/login', (req, res) => {
                         })
                         // res.json({ msg: 'success'})
                     } else {
-                        return res.status(400).json({password: 'Wrong Password!'})
+                        return res.status(400).json('Wrong Password!')
                     }
                 })
         })
@@ -86,7 +84,8 @@ router.get('/current', passport.authenticate('jwt', {session: false}), (req, res
     res.json({
         id: req.user.id,
         name: req.user.name,
-        email: req.user.email
+        email: req.user.email,
+        identity: req.user.identity
     });
 })
 

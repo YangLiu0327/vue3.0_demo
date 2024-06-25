@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser'); // use for post request
 const app = express();
 const passport = require('passport');
-// import users.js
-const users = require('./routers/api/users');
 
+const users = require('./routers/api/users');
+const profiles = require('./routers/api/profiles');
 // DB config
 const db = require('./config/keys').mongoURI;
 
@@ -24,6 +24,7 @@ mongoose.connect(db)
 require('./config/passport')(passport);
 
 app.use('/api/users', users);
+app.use('/api/profiles', profiles);
 
 const port = process.env.PORT || 5001;
 
