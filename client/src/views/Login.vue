@@ -44,6 +44,7 @@
   
   <script>
 
+  import {jwtDecode} from 'jwt-decode';
   export default {
     name: "login-component",
     components: {},
@@ -90,14 +91,26 @@
                     const { token } = res.data;
                     // store token
                     localStorage.setItem('eleToken', token);
-                      this.$message({
-                          message: 'account login successfully!',
-                          type: 'success'
-                      });
-                  })
+                    //   this.$message({
+                    //       message: 'account login successfully!',
+                    //       type: 'success'
+                    //   });
+                  const decoded = jwtDecode(token);
+                  // store decode token 
+                  this.$store.dispatch('setAuthenticated', !this.isEmpty(decoded))
+                  this.$store.dispatch('setUser', decoded)
                   this.$router.push('/index')
+                  })
               }
           })
+      },
+      isEmpty(value) {
+        return (
+            value === undefined ||
+            value === null ||
+            (typeof value === 'object' && Object.keys(value).length === 0) || 
+            (typeof value === 'string' && value.trim().length === 0)
+         )
       }
     }
   };

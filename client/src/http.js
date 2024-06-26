@@ -32,7 +32,7 @@ axios.interceptors.response.use(response=>{
     ElMessage.error(error.response.data);
     const { status } = error.response;
     if(status == 401) {
-        Message.error('Token is expired, please login again');
+        ElMessage.error('Token is expired, please login again');
         localStorage.removeItem('eleToken');
         router.push('/login')
     }
