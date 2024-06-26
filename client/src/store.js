@@ -5,12 +5,20 @@ const store = createStore({
     isAuthenticated: false,
     user: {},
   },
+  types: {
+    SET_AUTHENTICATED: 'SET_AUTHENTICATED',
+    SET_USER: "SET_USER"
+  },
+  getters: {
+    user: state => state.user,
+    isAuthenticated: state => state.isAuthenticated
+  },
   mutations: {
     SET_AUTHENTICATED(state, isAuthenticated) {
       state.isAuthenticated = isAuthenticated;
     },
     SET_USER(state, user) {
-      state.user = user;
+      state.user = user || {};
     },
   },
   actions: {
@@ -20,6 +28,10 @@ const store = createStore({
     setUser({ commit }, user) {
       commit('SET_USER', user);
     },
+    clearCurrentState({commit}){
+        commit('SET_AUTHENTICATED', false);
+        commit('SET_USER', {});
+    }
   },
 });
 

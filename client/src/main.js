@@ -5,6 +5,8 @@ import App from './App.vue'
 import router from './router/index';
 import axiosInstance from './http';
 import store from './store';
+import '@fortawesome/fontawesome-free/css/all.css';
+
 
 const app = createApp(App);
 app.config.globalProperties.$axios = axiosInstance;

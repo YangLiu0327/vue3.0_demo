@@ -3,13 +3,41 @@ import IndexComponent from '../views/Index.vue';
 import Register from '../views/Register.vue';
 import Login from '../views/Login.vue';
 import NotFound from '../views/404.vue';
+import HomeComponent from '../views/Home.vue';
+import InfoshowComponent from '../views/Infoshow.vue';
 
 const routes = [
   {
     path: '/index',
     name: 'index',
-    component: IndexComponent
-  },
+    component: IndexComponent,
+    children: [
+    {
+      path: '',
+      component: {
+        default: HomeComponent,
+        main: HomeComponent
+      },
+      name: 'index-home'
+    },
+    {
+      path: '/home',
+      components: {
+        default: HomeComponent,
+        main: HomeComponent
+      },
+      name: 'index-home'
+    },
+    {
+      path: '/infoshow',
+      components: {
+        default: InfoshowComponent,
+        main: InfoshowComponent
+      },
+      name: 'index-infoshow'
+    }
+    ]   
+  }, 
   {
     path: '/register',
     name: 'register',
