@@ -6,7 +6,7 @@ import router from './router/index';
 import axiosInstance from './http';
 import store from './store';
 import '@fortawesome/fontawesome-free/css/all.css';
-
+import 'element-plus/dist/index.css';
 
 const app = createApp(App);
 app.config.globalProperties.$axios = axiosInstance;

@@ -5,6 +5,7 @@ import Login from '../views/Login.vue';
 import NotFound from '../views/404.vue';
 import HomeComponent from '../views/Home.vue';
 import InfoshowComponent from '../views/Infoshow.vue';
+import FundListComponent from '../views/FundList.vue';
 
 const routes = [
   {
@@ -35,6 +36,14 @@ const routes = [
         main: InfoshowComponent
       },
       name: 'index-infoshow'
+    },
+    {
+      path: '/fundlist',
+      components: {
+        default: FundListComponent,
+        main: FundListComponent
+      },
+      name: 'index-fundlist'
     }
     ]   
   }, 

@@ -1,43 +1,43 @@
 <template>
     <div class="left-menu">
-    <ElMenu
+    <el-menu
     class="el-menu-vertical-demo"
     background-color="#324057"
     text-color="#fff"
     active-text-color="#409eff"
   >
   <router-link to="/home">
-    <ElMenuItem index="0">
+    <el-menu-item index="0">
         <i class="fa fa-margin fa-server"></i>
         <span>Home Page</span>
-    </ElMenuItem>
+    </el-menu-item>
     <template v-for="item in items">
-        <ElSubmenu v-if="item.children" :index="item.path" :key="item.path">
+        <el-sub-menu v-if="item.children" :index="item.path" :key="item.path">
             <template #title>
                 <i :class="'fa fa-margin ' + item.icon"></i>
                 <span>{{item.name}}</span>
             </template>
             <router-link v-for="(citem, cindex) in item.children" :to="citem.path" :key="cindex">
-                <ElMenuItem :index="citem.path">
+                <el-menu-item :index="citem.path">
                     <span>{{ citem.name }}</span>
-                </ElMenuItem>
+                </el-menu-item>
             </router-link>
-        </ElSubmenu>
+        </el-sub-menu>
     </template>
   </router-link>
-  </ElMenu>
+  </el-menu>
 </div>
 </template>
   
 <script>
 
-import { ElMenu, ElSubmenu, ElMenuItem } from 'element-plus';
+import { ElMenu, ElSubMenu, ElMenuItem } from 'element-plus'
 
 export default {
-    name: 'left-menu',
+    name: 'LeftMenu',
     components: {
     ElMenu,
-    ElSubmenu,
+    ElSubMenu,
     ElMenuItem
     },
     data() {

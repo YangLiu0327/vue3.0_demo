@@ -32,8 +32,8 @@ export default {
 .index{
   display: flex;
   flex-direction: column;
-  align-items: center; /* 居中内容 */
-  height: 100vh; /* 占满整个视口高度 */
+  align-items: center;
+  height: 100vh;
 }
 .content-placeholder{
     color: red;
