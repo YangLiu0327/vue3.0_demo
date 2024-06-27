@@ -11,7 +11,9 @@
       <HeadNav />
       <div class="main-content">
         <LeftNav />
-        <router-view class="router-view" />
+        <div class="right-container">
+          <router-view class="router-view" />
+        </div>
       </div>
     </div>
   </template>
@@ -46,5 +48,12 @@ export default {
 
 .router-view {
   width: 100%;
+}
+.right-container {
+  position: relative;
+  top: 0;
+  width: calc(100% - 180px);
+  height: calc(100% - 71px);
+  overflow: hidden;
 }
 </style>
